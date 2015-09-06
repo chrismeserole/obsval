@@ -1,0 +1,17 @@
+{
+    "contents" : "library(foreign)\n\ndf <- read.csv(\"/Users/cmes/Downloads/AFdatasubset.csv\")\nhead(df)\n\ndf$\n# I then estimate random effects\nlibrary(lme4)\nm <- glmer(y.vfear2 ~ x.cinsecure2 + x.age + x.ethnic + x.urbrur + x.wealth2 + x.female + x.educ2 + x.relig2 +\n             (1 |x.region), data = df, family = binomial, nAGQ = 1)\n\nprint(m, corr=FALSE)\n\ntmpdat <- df[,]\njvalues <- with(df, seq(from = min(x.cinsecure2), to = max(x.cinsecure2), length.out = 2))\n\npp <- lapply(jvalues, function(j) {\n  tmpdat$x.cinsecure2 <- j\n  predict(m, newdata = tmpdat, type = \"response\")\n})\nhead(pp)\n\nsapply(pp[c(1, 2)], mean)\n\nplotdat <- t(sapply(pp, function(x) {\n  c(M = mean(x), quantile(x, c(0.25, 0.75)))\n}))\n\npp[[1]][1:2]\n\nplotdat <- as.data.frame(cbind(plotdat, jvalues))\ncolnames(plotdat) <- c(\"PredictedProbability\", \"Lower\", \"Upper\", \"Insecurity\")\nhead(plotdat)\n\ndf.plot <- data.frame(pp,df$x.cinsecure2, df$x.country)\nlibrary(ggplot2)\n\nggplot(df.plot, aes(x = df.plot$x.cinsecure2, y = pp)) + \n  geom_line(aes(colour=df.plot$x.country))\n",
+    "created" : 1441277738748.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "578122732",
+    "id" : "2CB6F665",
+    "lastKnownWriteTime" : 1441389105,
+    "path" : "~/Desktop/anne-tutorial.r",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

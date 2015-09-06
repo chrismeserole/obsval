@@ -1,0 +1,30 @@
+Package: obsval
+Type: Package
+Title: Obsval: Using Observed Covariate Values to Calculate Predicted Effects 
+Version: 0.0.1
+Date: 2015-03-30
+Authors@R: person("Chris", "Meserole", email = "meserole@post.harvard.edu",
+    role = c("aut", "cre"))
+Author: Chris Meserole
+Maintainer: Chris Meserole <meserole@post.harvard.edu>
+Description: This package calculates predicted probabilities, discrete 
+    differences and marginal effects by using observed covariate values rather 
+    than mean covariate values. It implements Hanmer and Kalkan, ``Behind the 
+    Curve: Clarifying the Best Approach to Calculating Predicted Probabilities
+    and Marginal Effects from Limited Dependent Variable Models'', American 
+    Journal of Political Science (2013).
+URL: https://github.com/chrismeserole/obsval
+BugReports: https://github.com/chrismeserole/obsval/issues
+License: CC0
+LazyData: true
+Depends: R (>= 3.0.2)
+Imports: 
+  mvtnorm
+Suggests: testthat,
+    arm,
+    nnet,
+    knitr,
+    survival,
+    MASS,
+    ggplot2
+VignetteBuilder: knitr

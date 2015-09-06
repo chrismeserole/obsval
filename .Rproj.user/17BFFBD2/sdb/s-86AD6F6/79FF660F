@@ -1,0 +1,17 @@
+{
+    "contents" : "dotchart(VADeaths, main = \"Death Rates in Virginia - 1940\")\nop <- par(xaxs = \"i\")  # 0 -- 100%\ndotchart(t(VADeaths), xlim = c(0,100),\n         main = \"Death Rates in Virginia - 1940\")\npar(op)\n\nhead(VADeaths)\n",
+    "created" : 1441307352100.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "2435550781",
+    "id" : "79FF660F",
+    "lastKnownWriteTime" : 0,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled6"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
