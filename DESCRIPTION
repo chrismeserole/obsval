@@ -19,12 +19,11 @@ License: CC0
 LazyData: true
 Depends: R (>= 3.0.2)
 Imports: 
-  mvtnorm
-Suggests: testthat,
+  mvtnorm, MASS
+Suggests: 
     arm,
     nnet,
     knitr,
     survival,
-    MASS,
     ggplot2
 VignetteBuilder: knitr

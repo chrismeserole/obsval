@@ -82,7 +82,7 @@ obsval <- function( fmla, data, reg.model=NULL, n.draws=1000,
     effect.vals <- obj$vals
   }
   
-  # generate cleaned effect.var object
+  # generate cleaned subsample.var object
   if(!is.null(subsample.var)){
     confirmEffectVar(subsample.var, fmla)
     obj <- cleanFactorVar(data[[subsample.var]], 
@@ -96,6 +96,7 @@ obsval <- function( fmla, data, reg.model=NULL, n.draws=1000,
   # initialize col.names, which not all regression models set. since 
   # we're passing it to obsvalPredict(), we need to set it here
   col.names = NULL
+  
   
 	#
 	#	ESTIMATE MODEL -------------------------------------------------------------

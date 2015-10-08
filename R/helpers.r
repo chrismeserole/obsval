@@ -21,55 +21,6 @@
 #' (male.val <- convert$keys[["male"]])
 #' (female.val <- convert$keys[["female"]])
 
-factor2numeric <- function( vec ){
-  if( is.character( vec ) ){
-    cat(' factor2numeric() requires a factor object. The input received is a character object.' )
-    stop()
-  }
-  else if( is.numeric( vec ) ){
-    return( list(numvec=vec ))
-  }
-  else if( is.factor( vec ) ){
-
-    # convert input vector to numeric vector
-    newvec <- as.numeric( vec) - 1
-
-    # get all unique values of input vector & new vector
-    unique_vec <- unique( vec )
-    unique_newvec <- unique(newvec)
-
-    # initialize relevant lists
-    index_position.list <- list()
-    output_list <- list()
-    
-    # loop through each unique value of input vector, and store 
-    # index positions of all times that value appears in input vector 
-    for( i in 1:length(unique_vec) ){      
-      index_position.list[[ as.character(unique_vec[i]) ]] <- which(vec == unique_vec[i]) 
-    }
-
-    # loop through each unique value of new vector
-    for( i in 1:length( unique_newvec ) ){
-      
-      # store index positions of all times current value apperas in new vector
-      index_positions_vec <- which( newvec == unique_newvec[i] )
-
-      # loop through unique values of input vector
-      for( j in 1:length( unique_vec ) ){
-
-        # if index positions match, store in output_list
-        if( identical(index_position.list[[ unique_vec[j] ]], index_positions_vec) ) {
-          output_list[[ as.character(unique_vec[j]) ]] <- unique_newvec[i]
-        }
-      }
-    }
-    return(list(numvec=newvec,keys=output_list))
-  }
-  else{ 
-    message(paste('factor2numeric() requires factor object. The object passed is of type: ', typeof(vec), sep="" ))
-    stop()
-  }
-}
 
 confirmEffectVar <- function(effect.var, fmla){
   # make sure effect variable is actually in fmla
@@ -80,53 +31,43 @@ confirmEffectVar <- function(effect.var, fmla){
 }
 
 # cleans effect var & returns appropriately typed effect var
-cleanFactorVar <- function( vec, var.vals, vartype, verbose ){
-
-  is_factor <- FALSE
-  
+cleanFactorVar <- function( vec, vals, vartype, verbose ){
+    
   # if var class is character, convert to factor
   if( is.character(vec)) vec <- factor(vec)
-  if( is.factor(vec) ) {
-    is_factor <- TRUE       
-    confirmFactorVals( vec, var.vals, vartype)
-  }
-  # ensure numeric
-  vec <- factor2numeric( vec )
-
-  vec$is_factor <- is_factor
   
-  # if effect var is factor, replace with numeric values
-  if( vec$is_factor==TRUE ){
-    if( verbose == TRUE ) {
-      cat('Effect variable is factor. Resetting to numeric.')
+  # convert factor
+  if( is.factor(vec) ) {
+    
+    if( verbose == T ) {
+      cat(vartype, ' is factor. Resetting to numeric. \n', sep="")
     }
     
-    for(i in 1:length(var.vals)){
-      var.vals[i] <- vec$keys[[ as.character(var.vals[i])]]
-    }    
-  }  
+    # confirm that vals are in vec
+    for(i in 1:length(vals)){
+      if( !(vals[i] %in% vec)){
+        print(c(vec,vals))
+        str <- paste(vartype, " does not contain: ", sep="")
+        message(paste(str, vals[i], sep="") )
+        stop(options(show.error.messages=FALSE))
+      }
+    }
     
+    print(vec)
+    print(vals)
+    index.pos <- match(vals, vec)
+    vec <- as.integer(factor(vec)) - 1
+    print(index.pos)
+    print(vec[index.pos])
+    vals <- as.numeric(vec[index.pos])
+    print(vec)
+    print(vals)
+  }
+  
   # return list object
-  return(list(vec=vec$numvec, vals=var.vals))
+  return(list(vec=vec, vals=vals))
 }
 
-# cleans effect var & returns appropriately typed effect var
-confirmFactorVals <- function( vec, vals, vartype ){
-  for(i in 1:length(vals)){
-    confirmVal(vec, vals[i], vartype)
-  }
-  return()
-}
-
-# confirm value exists in vector
-confirmVal <- function( vec, val, name_var ){
-  if( !(val %in% vec)){
-    str <- paste(name_var, " does not contain: ", sep="")
-    message(paste(str, val, sep="") )
-    stop(options(show.error.messages=FALSE))
-  }
-  return()
-}
 
 # confirms range of function
 confirmEffectVarRange <- function( vec, high.val, low.val ){
