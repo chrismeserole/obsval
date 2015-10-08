@@ -39,7 +39,7 @@ obsval <- function( fmla, data, reg.model=NULL, n.draws=1000,
                     subsample.var=NULL, 
                     subsample.val=NULL,
                     baseline.category=NULL,
-                    verbose=FALSE, seed=123, ci=95 ){
+                    verbose=FALSE, seed=123, ci=95){
   
   
   if(typeof(fmla)=='character'){
