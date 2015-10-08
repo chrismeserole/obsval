@@ -56,7 +56,7 @@ obsval <- function( fmla, data, reg.model=NULL, n.draws=1000,
   }
   
   if(is.null(reg.model)){
-    message("obsvalPredict() must be passed a 'reg.model' parameter.")
+    message("obsvalPredict() must be passed a 'reg.model' argument.")
     stop()
   }
 
